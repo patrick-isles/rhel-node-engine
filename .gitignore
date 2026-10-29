@@ -1,0 +1,10 @@
+# Ignore raw block device files and sparse images
+*.img
+*.iso
+*.qcow2
+*.raw
+# Python bytecode
+__pycache__/
+*.pyc
+# Temporary test logs
+*.log

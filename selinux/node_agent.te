@@ -1,0 +1,27 @@
+module node_agent 1.0;
+
+require {
+    type init_t;
+    type node_agent_t;
+    type node_agent_exec_t;
+    type node_agent_log_t;
+    class file { read write open getattr execute entrypoint create append };
+    class dir { search write add_name create };
+    class unix_dgram_socket { create connect sendto };
+}
+
+# Declarations
+type node_agent_t;
+type node_agent_exec_t;
+type node_agent_log_t;
+
+# Domain transition: init_t running node_agent_exec_t becomes node_agent_t
+# (Defined when loaded alongside base policy)
+
+# Allow rules:
+# 1. Allow writing logs to /var/log/node-agent
+allow node_agent_t node_agent_log_t:dir { search write add_name create };
+allow node_agent_t node_agent_log_t:file { read write open getattr create append };
+
+# 2. Allow communication with systemd notify/watchdog socket
+allow node_agent_t init_t:unix_dgram_socket { sendto };

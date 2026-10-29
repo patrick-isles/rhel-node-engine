@@ -1,0 +1,12 @@
+# ==============================================================================
+# Enterprise Node Engine - Kernel Audit Matrix (CIS Benchmark Alignment)
+# ==============================================================================
+
+# Monitor executable integrity
+-w /usr/local/bin/node_agent -p rwa -k node_agent_exec_integrity
+
+# Monitor service logs directory
+-w /var/log/node-agent -p wa -k node_agent_log_tamper
+
+# Monitor systemd service definition
+-w /etc/systemd/system/node-agent.service -p wa -k node_agent_unit_tamper

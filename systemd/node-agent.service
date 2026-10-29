@@ -1,0 +1,35 @@
+[Unit]
+Description=Enterprise Node Agent Engine
+After=network.target
+# Rate-limit restart attempts to prevent runaway boot loops
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+[Service]
+# Service Type & Self-Healing Watchdog
+Type=notify
+WatchdogSec=10s
+Restart=always
+RestartSec=2s
+ExecStart=/usr/local/bin/node_agent
+
+# Identity & Security Boundaries
+User=node-agent
+Group=node-agent
+
+# Linux Kernel Sandboxing (CIS Hardening)
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+
+# Explicit write allowance for logging
+ReadWritePaths=/var/log/node-agent
+
+# Cgroups v2 Resource Governance (Memory cap & CPU limit)
+MemoryMax=128M
+CPUQuota=25%
+
+[Install]
+WantedBy=multi-user.target

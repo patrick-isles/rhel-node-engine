@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "volume_group": "rhel_vg",
+  "default_filesystem": "xfs",
+  "description": "Enterprise CIS-Hardened Partitioning Layout for RHEL 9",
+  "logical_volumes": [
+    {
+      "name": "lv_root",
+      "mount": "/",
+      "size_gb": 10,
+      "fs_type": "xfs",
+      "mount_options": "defaults",
+      "dump": 0,
+      "pass_num": 1,
+      "cis_rationale": "Root partition for operating system binaries and configuration."
+    },
+    {
+      "name": "lv_tmp",
+      "mount": "/tmp",
+      "size_gb": 2,
+      "fs_type": "xfs",
+      "mount_options": "defaults,nodev,nosuid,noexec",
+      "dump": 0,
+      "pass_num": 2,
+      "cis_rationale": "CIS 1.1.2 - 1.1.5: Isolated temporary partition with execution and SUID blocked."
+    },
+    {
+      "name": "lv_var",
+      "mount": "/var",
+      "size_gb": 8,
+      "fs_type": "xfs",
+      "mount_options": "defaults,nodev",
+      "dump": 0,
+      "pass_num": 2,
+      "cis_rationale": "CIS 1.1.6: Variable data isolation preventing disk exhaustion on root."
+    },
+    {
+      "name": "lv_log",
+      "mount": "/var/log",
+      "size_gb": 4,
+      "fs_type": "xfs",
+      "mount_options": "defaults,nodev,nosuid,noexec",
+      "dump": 0,
+      "pass_num": 2,
+      "cis_rationale": "CIS 1.1.7 - 1.1.9: Isolated logging partition preventing log injection exploits."
+    },
+    {
+      "name": "lv_audit",
+      "mount": "/var/log/audit",
+      "size_gb": 4,
+      "fs_type": "xfs",
+      "mount_options": "defaults,nodev,nosuid,noexec",
+      "dump": 0,
+      "pass_num": 2,
+      "cis_rationale": "CIS 1.1.10 - 1.1.12: Dedicated auditd log storage to avoid audit shutdown on disk full."
+    },
+    {
+      "name": "lv_home",
+      "mount": "/home",
+      "size_gb": 5,
+      "fs_type": "xfs",
+      "mount_options": "defaults,nodev,nosuid",
+      "dump": 0,
+      "pass_num": 2,
+      "cis_rationale": "CIS 1.1.13 - 1.1.15: Dedicated user home directories with SUID escalation blocked."
+    }
+  ],
+  "swap": {
+    "name": "lv_swap",
+    "size_gb": 4,
+    "cis_rationale": "Swap space allocation for memory overflow protection."
+  }
+}
